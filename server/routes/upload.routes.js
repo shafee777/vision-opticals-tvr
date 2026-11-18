@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const fs = require('fs');
 const path = require('path');
-const config = require('../config');
 const { requireAuth } = require('../middleware/auth');
 const { uploadImages } = require('../middleware/upload');
 const { processAndSaveImage } = require('../services/imageService');
+const blobService = require('../services/blobService');
 
 // POST /api/upload — Single or multi-file upload
 router.post('/', requireAuth, uploadImages.array('images', 10), async (req, res) => {
@@ -22,10 +21,9 @@ router.post('/', requireAuth, uploadImages.array('images', 10), async (req, res)
 
     res.json({
       success: true,
-      message: `Successfully uploaded and optimized ${savedImages.length} image(s)!`,
+      message: `Successfully uploaded and saved ${savedImages.length} image(s)!`,
       images: savedImages,
       files: savedImages,
-      // Convenience field for single image uploads:
       url: savedImages[0].url,
       thumbnailUrl: savedImages[0].thumbnailUrl
     });
@@ -35,33 +33,28 @@ router.post('/', requireAuth, uploadImages.array('images', 10), async (req, res)
   }
 });
 
+// GET /api/upload/raw/:filename — Serve image from Netlify Blobs or disk
+router.get('/raw/:filename', async (req, res) => {
+  try {
+    const filename = path.basename(req.params.filename);
+    const blob = await blobService.getBlob(filename);
+
+    if (!blob || !blob.buffer) {
+      return res.status(404).json({ success: false, message: 'Image not found.' });
+    }
+
+    res.setHeader('Content-Type', 'image/jpeg');
+    res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+    res.send(blob.buffer);
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 // GET /api/upload/library — Photo library listing
 router.get('/library', requireAuth, async (req, res) => {
   try {
-    const listFiles = (dir, prefix) => {
-      if (!fs.existsSync(dir)) return [];
-      const files = fs.readdirSync(dir);
-      return files
-        .filter(f => /\.(jpe?g|png|webp|gif)$/i.test(f) && !f.startsWith('thumb_'))
-        .map(f => {
-          const fullPath = path.join(dir, f);
-          const stat = fs.statSync(fullPath);
-          return {
-            name: f,
-            url: `${prefix}/${f}`,
-            size: stat.size,
-            updatedAt: stat.mtime
-          };
-        });
-    };
-
-    const imagesDir = path.join(config.PUBLIC_DIR, 'images');
-    const uploadsDir = config.UPLOAD_DIR;
-
-    const brandImages = listFiles(imagesDir, 'images');
-    const uploadImages = listFiles(uploadsDir, 'uploads');
-
-    const allImages = [...uploadImages, ...brandImages].sort((a, b) => b.updatedAt - a.updatedAt);
+    const allImages = await blobService.listBlobs();
 
     res.json({
       success: true,
@@ -84,11 +77,7 @@ router.delete('/', requireAuth, async (req, res) => {
     }
 
     const filename = path.basename(rawTarget);
-    const filePath = path.join(config.UPLOAD_DIR, filename);
-    const thumbPath = path.join(config.UPLOAD_DIR, 'thumb_' + filename);
-
-    if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
-    if (fs.existsSync(thumbPath)) fs.unlinkSync(thumbPath);
+    await blobService.deleteBlob(filename);
 
     res.json({ success: true, message: 'Photo deleted successfully.' });
   } catch (err) {

@@ -3,6 +3,7 @@ const cors = require('cors');
 const path = require('path');
 const config = require('./config');
 const { initSchema } = require('./db/database');
+const blobService = require('./services/blobService');
 
 const app = express();
 
@@ -11,36 +12,55 @@ app.use(cors());
 app.use(express.json({ limit: '15mb' }));
 app.use(express.urlencoded({ extended: true, limit: '15mb' }));
 
-// Static files from public directory
+// Serve static files from public directory if running as standalone server
 app.use(express.static(config.PUBLIC_DIR));
+
+// Serve Netlify Blobs / disk uploads directly at /uploads/:filename
+app.get('/uploads/:filename', async (req, res, next) => {
+  try {
+    const filename = path.basename(req.params.filename);
+    const blob = await blobService.getBlob(filename);
+    if (blob && blob.buffer) {
+      res.setHeader('Content-Type', 'image/jpeg');
+      res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      return res.send(blob.buffer);
+    }
+  } catch (_) {}
+  next();
+});
 
 // Explicit route for /admin and any sub-path -> serves admin.html
 app.get(/^\/admin(\/.*)?$/, (req, res) => {
   res.sendFile(path.join(config.PUBLIC_DIR, 'admin.html'));
 });
 
-// API Routes
-app.use('/api/auth', require('./routes/auth.routes'));
-app.use('/api/products', require('./routes/products.routes'));
-app.use('/api/categories', require('./routes/categories.routes'));
-app.use('/api/inventory', require('./routes/inventory.routes'));
-app.use('/api/offers', require('./routes/offers.routes'));
-app.use('/api/content', require('./routes/content.routes'));
-app.use('/api/settings', require('./routes/settings.routes'));
-app.use('/api/upload', require('./routes/upload.routes'));
-app.use('/api/bulk', require('./routes/bulk.routes'));
-app.use('/api/appointments', require('./routes/appointments.routes'));
-app.use('/api/orders', require('./routes/orders.routes'));
-app.use('/api/components', require('./routes/components.routes'));
+// API Router
+const apiRouter = express.Router();
+apiRouter.use('/auth', require('./routes/auth.routes'));
+apiRouter.use('/products', require('./routes/products.routes'));
+apiRouter.use('/categories', require('./routes/categories.routes'));
+apiRouter.use('/inventory', require('./routes/inventory.routes'));
+apiRouter.use('/offers', require('./routes/offers.routes'));
+apiRouter.use('/content', require('./routes/content.routes'));
+apiRouter.use('/settings', require('./routes/settings.routes'));
+apiRouter.use('/upload', require('./routes/upload.routes'));
+apiRouter.use('/bulk', require('./routes/bulk.routes'));
+apiRouter.use('/appointments', require('./routes/appointments.routes'));
+apiRouter.use('/orders', require('./routes/orders.routes'));
+apiRouter.use('/components', require('./routes/components.routes'));
 
-// Healthcheck API
-app.get('/api/health', (req, res) => {
+apiRouter.get('/health', (req, res) => {
   res.json({
     status: 'ok',
     store: 'Vision Opticals',
+    engine: 'Netlify Server / Node.js',
     timestamp: new Date().toISOString()
   });
 });
+
+// Mount API router at both /api (standard) and / (fail-safe for Netlify function redirects)
+app.use('/api', apiRouter);
+app.use('/', apiRouter);
 
 // Global Error Handler
 app.use((err, req, res, next) => {
@@ -51,7 +71,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start Server
+// Start Server for local dev or traditional hosting
 async function startServer() {
   await initSchema();
   return new Promise((resolve) => {

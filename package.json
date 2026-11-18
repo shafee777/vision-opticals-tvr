@@ -26,6 +26,9 @@
     "jimp": "^0.22.12",
     "jsonwebtoken": "^9.0.2",
     "multer": "^1.4.5-lts.1",
-    "sqlite3": "^5.1.7"
+    "sqlite3": "^5.1.7",
+    "pg": "^8.13.1",
+    "serverless-http": "^3.2.0",
+    "@netlify/blobs": "^8.1.0"
   }
 }

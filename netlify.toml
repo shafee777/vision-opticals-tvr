@@ -1,7 +1,26 @@
 [build]
   publish = "public"
+  functions = "netlify/functions"
+
+# 1. Admin Portal Single Page App routing
+[[redirects]]
+  from = "/admin"
+  to = "/admin.html"
+  status = 200
 
 [[redirects]]
   from = "/admin/*"
-  to = "/admin/index.html"
+  to = "/admin.html"
+  status = 200
+
+# 2. Uploaded image delivery via Netlify Blobs
+[[redirects]]
+  from = "/uploads/*"
+  to = "/.netlify/functions/api/uploads/:splat"
+  status = 200
+
+# 3. Backend API requests routed to Netlify Server Function
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/api/:splat"
   status = 200
