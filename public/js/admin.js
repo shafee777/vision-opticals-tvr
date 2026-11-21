@@ -147,6 +147,7 @@
     if (secId === 'appointments') loadAppointmentsData();
     if (secId === 'orders') loadOrdersData();
     if (secId === 'components') loadComponentsData();
+    if (secId === 'tower') loadTowerAdminData();
     if (secId === 'offers') loadOffersData();
     if (secId === 'content') loadContentData();
     if (secId === 'settings') loadSettingsData();
@@ -1138,6 +1139,125 @@
     }
   }
 
+  // ── 9B. 3D REVOLVING TOWER MANAGER ───────────────────────
+  async function loadTowerAdminData() {
+    try {
+      if (state.products.length === 0) {
+        const prodRes = await API.products.list();
+        if (prodRes.success && prodRes.products) state.products = prodRes.products;
+      }
+
+      // Populate product selectors
+      const optionsHtml = state.products.map(p => `
+        <option value="${p.id}">${escapeHtml(p.name)} (${escapeHtml(p.brand || 'Vision')} - ₹${(p.price || 0).toLocaleString('en-IN')})</option>
+      `).join('');
+
+      document.querySelectorAll('.tower-product-picker').forEach(sel => {
+        sel.innerHTML = optionsHtml;
+      });
+
+      // Load existing tower config from settings
+      const setRes = await API.settings.get();
+      if (setRes.success && setRes.settings && setRes.settings.tower_config) {
+        let cfg;
+        try {
+          cfg = typeof setRes.settings.tower_config === 'string' ? JSON.parse(setRes.settings.tower_config) : setRes.settings.tower_config;
+        } catch (e) {
+          cfg = null;
+        }
+
+        if (cfg && cfg.sides && cfg.sides.length >= 3) {
+          // Side 1
+          if (cfg.sides[0].title) document.getElementById('tower-s1-title').value = cfg.sides[0].title;
+          if (cfg.sides[0].tag) document.getElementById('tower-s1-tag').value = cfg.sides[0].tag;
+          if (cfg.sides[0].frame_ids) {
+            if (cfg.sides[0].frame_ids[0]) document.getElementById('tower-s1-f1').value = cfg.sides[0].frame_ids[0];
+            if (cfg.sides[0].frame_ids[1]) document.getElementById('tower-s1-f2').value = cfg.sides[0].frame_ids[1];
+            if (cfg.sides[0].frame_ids[2]) document.getElementById('tower-s1-f3').value = cfg.sides[0].frame_ids[2];
+            if (cfg.sides[0].frame_ids[3]) document.getElementById('tower-s1-f4').value = cfg.sides[0].frame_ids[3];
+          }
+
+          // Side 2
+          if (cfg.sides[1].title) document.getElementById('tower-s2-title').value = cfg.sides[1].title;
+          if (cfg.sides[1].tag) document.getElementById('tower-s2-tag').value = cfg.sides[1].tag;
+          if (cfg.sides[1].frame_ids) {
+            if (cfg.sides[1].frame_ids[0]) document.getElementById('tower-s2-f1').value = cfg.sides[1].frame_ids[0];
+            if (cfg.sides[1].frame_ids[1]) document.getElementById('tower-s2-f2').value = cfg.sides[1].frame_ids[1];
+            if (cfg.sides[1].frame_ids[2]) document.getElementById('tower-s2-f3').value = cfg.sides[1].frame_ids[2];
+            if (cfg.sides[1].frame_ids[3]) document.getElementById('tower-s2-f4').value = cfg.sides[1].frame_ids[3];
+          }
+
+          // Side 3
+          if (cfg.sides[2].title) document.getElementById('tower-s3-title').value = cfg.sides[2].title;
+          if (cfg.sides[2].tag) document.getElementById('tower-s3-tag').value = cfg.sides[2].tag;
+          if (cfg.sides[2].frame_ids) {
+            if (cfg.sides[2].frame_ids[0]) document.getElementById('tower-s3-f1').value = cfg.sides[2].frame_ids[0];
+            if (cfg.sides[2].frame_ids[1]) document.getElementById('tower-s3-f2').value = cfg.sides[2].frame_ids[1];
+            if (cfg.sides[2].frame_ids[2]) document.getElementById('tower-s3-f3').value = cfg.sides[2].frame_ids[2];
+            if (cfg.sides[2].frame_ids[3]) document.getElementById('tower-s3-f4').value = cfg.sides[2].frame_ids[3];
+          }
+        }
+      }
+    } catch (e) {
+      console.warn('Tower admin load error:', e);
+    }
+  }
+
+  async function saveTowerConfig() {
+    const config = {
+      sides: [
+        {
+          side_id: 1,
+          title: document.getElementById('tower-s1-title').value.trim(),
+          tag: document.getElementById('tower-s1-tag').value.trim(),
+          degree: '000.0°',
+          angle: 0,
+          frame_ids: [
+            parseInt(document.getElementById('tower-s1-f1').value, 10),
+            parseInt(document.getElementById('tower-s1-f2').value, 10),
+            parseInt(document.getElementById('tower-s1-f3').value, 10),
+            parseInt(document.getElementById('tower-s1-f4').value, 10)
+          ]
+        },
+        {
+          side_id: 2,
+          title: document.getElementById('tower-s2-title').value.trim(),
+          tag: document.getElementById('tower-s2-tag').value.trim(),
+          degree: '120.0°',
+          angle: -120,
+          frame_ids: [
+            parseInt(document.getElementById('tower-s2-f1').value, 10),
+            parseInt(document.getElementById('tower-s2-f2').value, 10),
+            parseInt(document.getElementById('tower-s2-f3').value, 10),
+            parseInt(document.getElementById('tower-s2-f4').value, 10)
+          ]
+        },
+        {
+          side_id: 3,
+          title: document.getElementById('tower-s3-title').value.trim(),
+          tag: document.getElementById('tower-s3-tag').value.trim(),
+          degree: '240.0°',
+          angle: -240,
+          frame_ids: [
+            parseInt(document.getElementById('tower-s3-f1').value, 10),
+            parseInt(document.getElementById('tower-s3-f2').value, 10),
+            parseInt(document.getElementById('tower-s3-f3').value, 10),
+            parseInt(document.getElementById('tower-s3-f4').value, 10)
+          ]
+        }
+      ]
+    };
+
+    try {
+      const res = await API.settings.update({ tower_config: JSON.stringify(config) }, state.token);
+      if (res.success) {
+        toast('3D Revolving Tower categories & frames updated successfully!', 'ok');
+      }
+    } catch (err) {
+      toast('Failed to save 3D tower settings: ' + err.message, 'err');
+    }
+  }
+
   async function changePassword(e) {
     e.preventDefault();
     const current = document.getElementById('pwd-current').value;
@@ -1400,6 +1520,8 @@
     openSectionEditor,
     saveSectionEditor,
     saveStoreSettings,
+    loadTowerAdminData,
+    saveTowerConfig,
     changePassword,
     uploadFiles,
     deleteLibraryPhoto,

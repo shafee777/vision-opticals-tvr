@@ -29,6 +29,7 @@
       </a>
       <div class="nav-tabs">
         <button class="nav-tab active" data-page="catalog" onclick="app.showPage('catalog')">Eyewear Collection</button>
+        <button class="nav-tab" data-page="tower" onclick="app.scrollToTower()">Revolving 3D Tower</button>
         <button class="nav-tab" data-page="store" onclick="app.showPage('store')">Our Clinic & Store</button>
       </div>
     </div>
@@ -61,6 +62,7 @@
   <!-- MOBILE TABS -->
   <div class="mobile-tabs">
     <button class="pill active mobile-tab" data-page="catalog" onclick="app.showPage('catalog')">Eyewear Collection</button>
+    <button class="pill mobile-tab" data-page="tower" onclick="app.scrollToTower()">3D Tower</button>
     <button class="pill mobile-tab" data-page="store" onclick="app.showPage('store')">Our Clinic & Store</button>
   </div>
 
@@ -171,6 +173,295 @@
 
     <!-- DYNAMIC MODULAR COMPONENTS CONTAINER (ADMIN CONTROLLED) -->
     <div id="modular-components-area"></div>
+
+    <!-- ═════════ 3D REVOLVING EYEWEAR TOWER & CONSULTATION TRAY ═════════ -->
+    <section id="revolving-tower-section" class="tower-showcase-section">
+      <!-- Section Header -->
+      <div class="tower-header-block">
+        <div>
+          <div class="tower-tag-pill">
+            <svg style="width:13px;height:13px;stroke:currentColor;fill:none;" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            Tactile 3D Eyewear Studio · Kyoto & Thiruvarur Atelier
+          </div>
+          <h2 class="tower-title">The Revolving Pillar</h2>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:8px;">
+          <div class="tower-metrology-pill">
+            <span style="width:6px;height:6px;border-radius:50%;background:var(--green);display:inline-block;"></span>
+            <span>CNC CALIBRATED: ±0.01MM TOLERANCE</span>
+          </div>
+          <div class="tower-metrology-pill" style="color:var(--amber);">
+            <span>3-SIDED • 120° INDEX ROTATION</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Interactive User Guide Decal / Hint Banner -->
+      <div class="tower-guide-banner">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
+        <div>
+          <strong>How to Experience:</strong> Drag the brass tower horizontally to spin all 3 sides (120° magnetic detents). Click any frame on the brass hooks to inspect on the velvet tray. Drag the tray image horizontally to rotate in 360°, toggle <strong>Zoom</strong> for hinge micro-details, and click <strong>"Configure Custom Lenses"</strong> to order with your exact prescription.
+        </div>
+      </div>
+
+      <!-- Dual Workstation Grid: Left 7-col Tower Stand + Right 5-col Velvet Tray -->
+      <div class="tower-workstation-grid">
+        <!-- LEFT: The Revolving 3D Eyewear Tower Stand -->
+        <div class="tower-stand-card">
+          <!-- Top Tower HUD overlay -->
+          <div class="tower-hud-top">
+            <div>
+              <div class="hud-facet-sub">Active Architectural Facet</div>
+              <div class="hud-facet-title" id="activeFacetIndicator">Facet I • Luxury Sunglasses Sanctuary</div>
+            </div>
+            <div class="hud-controls-group">
+              <button class="hud-arrow-btn" id="prevFacetBtn" aria-label="Previous Facet" title="Rotate 120° Left">
+                <svg style="width:16px;height:16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+              </button>
+              <div class="hud-degree-pill">
+                <span id="facetDegreeReadout">000.0°</span> / 360°
+              </div>
+              <button class="hud-arrow-btn" id="nextFacetBtn" aria-label="Next Facet" title="Rotate 120° Right">
+                <svg style="width:16px;height:16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- 3D Stand Graphic & Optical Hooks Display Area -->
+          <div class="tower-spin-canvas" id="towerSpinCanvas">
+            <!-- Ambient Backdrop Glow -->
+            <div class="tower-glow-backdrop">
+              <div class="tower-glow-circle"></div>
+            </div>
+
+            <!-- Turntable Rotatable Rig Container (Preserve-3D) -->
+            <div class="tower-rotatable-rig" id="standRotatableRig" style="transform: rotateY(0deg);">
+              <!-- ARCHITECTURAL COUNTERTOP FIXTURE: Brushed Brass Double Uprights, Arch & Heavy Alabaster Base -->
+              <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+                <svg class="w-full h-full" style="max-width:440px;height:520px;filter:drop-shadow(0 8px 24px rgba(0,0,0,0.06));" viewBox="0 0 440 540" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <defs>
+                    <linearGradient id="brassGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#8C6E3D"/>
+                      <stop offset="35%" stop-color="#D9B774"/>
+                      <stop offset="65%" stop-color="#F2DFAB"/>
+                      <stop offset="85%" stop-color="#C5A059"/>
+                      <stop offset="100%" stop-color="#7A5E30"/>
+                    </linearGradient>
+                    <linearGradient id="brassBall" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stop-color="#F7E7C4"/>
+                      <stop offset="50%" stop-color="#B08D57"/>
+                      <stop offset="100%" stop-color="#5E4720"/>
+                    </linearGradient>
+                    <linearGradient id="stonePlinth" x1="0%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stop-color="#FFFFFF"/>
+                      <stop offset="30%" stop-color="#F4EFE6"/>
+                      <stop offset="70%" stop-color="#E5E0D5"/>
+                      <stop offset="100%" stop-color="#CDC5B8"/>
+                    </linearGradient>
+                    <radialGradient id="plinthDrop" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stop-color="rgba(0,0,0,0.22)"/>
+                      <stop offset="60%" stop-color="rgba(0,0,0,0.06)"/>
+                      <stop offset="100%" stop-color="rgba(0,0,0,0)"/>
+                    </radialGradient>
+                  </defs>
+                  <!-- Base Plinth Cast Shadow -->
+                  <ellipse cx="220" cy="510" rx="150" ry="16" fill="url(#plinthDrop)"/>
+                  <!-- Weighted Travertine/Alabaster Circular Step Plinth Base -->
+                  <ellipse cx="220" cy="494" rx="135" ry="14" fill="url(#stonePlinth)" stroke="#CDC5BD" stroke-width="0.8"/>
+                  <path d="M85 494 C85 504, 355 504, 355 494 L355 505 C355 515, 85 515, 85 505 Z" fill="#D3CCC2"/>
+                  <!-- Middle Brass Spindle Collar -->
+                  <ellipse cx="220" cy="488" rx="88" ry="9" fill="url(#brassGrad)"/>
+                  <path d="M132 488 L132 494 C132 499, 308 499, 308 494 L308 488 Z" fill="#8C6E3D"/>
+                  <!-- Upper Honed Plinth Tier -->
+                  <ellipse cx="220" cy="480" rx="76" ry="8" fill="url(#stonePlinth)" stroke="#E4E2DE" stroke-width="0.8"/>
+                  <!-- Central Axis Bushing -->
+                  <ellipse cx="220" cy="478" rx="24" ry="3.5" fill="url(#brassGrad)"/>
+                  <!-- Twin Brushed Brass Upright Rods -->
+                  <line x1="160" y1="52" x2="160" y2="478" stroke="url(#brassGrad)" stroke-width="4.5" stroke-linecap="round"/>
+                  <line x1="280" y1="52" x2="280" y2="478" stroke="url(#brassGrad)" stroke-width="4.5" stroke-linecap="round"/>
+                  <!-- Central Guiding Spline -->
+                  <line x1="220" y1="36" x2="220" y2="478" stroke="#C5A059" stroke-width="1.2" stroke-dasharray="4 4" opacity="0.45"/>
+                  <!-- Top Overhead Arch & Finial Crown -->
+                  <path d="M160 52 C160 18, 280 18, 280 52" fill="none" stroke="url(#brassGrad)" stroke-width="5" stroke-linecap="round"/>
+                  <rect x="214" y="24" width="12" height="6" rx="1" fill="url(#brassBall)"/>
+                  <circle cx="220" cy="17" r="7.5" fill="url(#brassBall)"/>
+                  <circle cx="218" cy="14" r="2.2" fill="#FFFFFF" opacity="0.8"/>
+                  <!-- 4 Pairs of Forward Curved Brass Cradles (Hook Brackets) -->
+                  <!-- Cradle 1 (Y ~ 85) -->
+                  <g stroke="url(#brassGrad)" stroke-linecap="round">
+                    <path d="M160 88 C168 96, 194 96, 204 84" fill="none" stroke-width="3.5"/>
+                    <circle cx="204" cy="84" r="2.8" fill="#C5A059"/>
+                    <path d="M280 88 C272 96, 246 96, 236 84" fill="none" stroke-width="3.5"/>
+                    <circle cx="236" cy="84" r="2.8" fill="#C5A059"/>
+                    <ellipse cx="220" cy="86" rx="8" ry="3.5" fill="#B08D57" opacity="0.75"/>
+                  </g>
+                  <!-- Cradle 2 (Y ~ 185) -->
+                  <g stroke="url(#brassGrad)" stroke-linecap="round">
+                    <path d="M160 188 C168 196, 194 196, 204 184" fill="none" stroke-width="3.5"/>
+                    <circle cx="204" cy="184" r="2.8" fill="#C5A059"/>
+                    <path d="M280 188 C272 196, 246 196, 236 184" fill="none" stroke-width="3.5"/>
+                    <circle cx="236" cy="184" r="2.8" fill="#C5A059"/>
+                    <ellipse cx="220" cy="186" rx="8" ry="3.5" fill="#B08D57" opacity="0.75"/>
+                  </g>
+                  <!-- Cradle 3 (Y ~ 285) -->
+                  <g stroke="url(#brassGrad)" stroke-linecap="round">
+                    <path d="M160 288 C168 296, 194 296, 204 284" fill="none" stroke-width="3.5"/>
+                    <circle cx="204" cy="284" r="2.8" fill="#C5A059"/>
+                    <path d="M280 288 C272 296, 246 296, 236 284" fill="none" stroke-width="3.5"/>
+                    <circle cx="236" cy="284" r="2.8" fill="#C5A059"/>
+                    <ellipse cx="220" cy="286" rx="8" ry="3.5" fill="#B08D57" opacity="0.75"/>
+                  </g>
+                  <!-- Cradle 4 (Y ~ 385) -->
+                  <g stroke="url(#brassGrad)" stroke-linecap="round">
+                    <path d="M160 388 C168 396, 194 396, 204 384" fill="none" stroke-width="3.5"/>
+                    <circle cx="204" cy="384" r="2.8" fill="#C5A059"/>
+                    <path d="M280 388 C272 396, 246 396, 236 384" fill="none" stroke-width="3.5"/>
+                    <circle cx="236" cy="384" r="2.8" fill="#C5A059"/>
+                    <ellipse cx="220" cy="386" rx="8" ry="3.5" fill="#B08D57" opacity="0.75"/>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- 4 REALISTIC EYEWEAR SPECIMENS ON ACTIVE FACET CRADLES -->
+              <div class="stand-frames-container" id="standFramesContainer">
+                <!-- Injected dynamically via JS based on Active Facet (0°, 120°, 240°) -->
+              </div>
+            </div>
+          </div>
+
+          <!-- 3-Sided Carousel Facet Tabs (120° Index Buttons) -->
+          <div class="tower-facet-tabs-strip">
+            <div class="facet-tabs-nav">
+              <button class="facet-tab-btn active" data-facet="0" onclick="app.selectTowerFacet(0)">
+                Facet I • Sunglasses (0°)
+              </button>
+              <button class="facet-tab-btn" data-facet="1" onclick="app.selectTowerFacet(1)">
+                Facet II • Optical (120°)
+              </button>
+              <button class="facet-tab-btn" data-facet="2" onclick="app.selectTowerFacet(2)">
+                Facet III • Titanium (240°)
+              </button>
+            </div>
+            <div class="tower-drag-hint-footer">
+              <span>Click any frame or drag to spin 360° • 120° magnetic detents</span>
+              <span style="font-family:monospace;font-size:11px;">BRUSHED BRASS: 120.000° STEP</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: The Velvet Consultation Tray (5-col) -->
+        <div class="tower-tray-card">
+          <div>
+            <!-- Tray Header & Urgency Micro-tag -->
+            <div class="tray-header-row">
+              <div>
+                <span class="tray-title-sub" id="trayFacetLabel">Inspection Plinth · Facet I Selection</span>
+                <h3 class="tray-frame-title" id="trayFrameTitle">Gucci Lettering GG1802S Gold</h3>
+                <span style="font-size:12px;color:var(--ink2);" id="trayFrameSpec">55□18-145 • Shiny Gold Metal & Mineral Lenses</span>
+              </div>
+              <div class="tray-stock-urgency-badge" id="trayStockBadge">
+                <span class="tray-pulse-dot"></span>
+                <span>Only 2 Left in Stock</span>
+              </div>
+            </div>
+
+            <!-- Interactive 360° Drag Turntable Stage -->
+            <div class="turntable-stage-box" id="turntableStageBox">
+              <!-- Azimuth Real-Time Readout Tag -->
+              <div class="turntable-azimuth-tag">
+                <svg style="width:13px;height:13px;stroke:var(--ink);fill:none;" viewBox="0 0 24 24"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                <span id="azimuthIndicator">Azimuth: 102.4° • Oblique Temple Angle</span>
+              </div>
+
+              <!-- Zoom In / Zoom Out Toggle Button -->
+              <button class="turntable-zoom-toggle-btn" id="turntableZoomBtn" onclick="app.toggleTowerZoom()" title="Inspect Temple Hinges & Engravings">
+                <svg style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                <span id="zoomBtnText">Zoom (1.8x)</span>
+              </button>
+
+              <!-- Specimen Turntable Image Wrapper -->
+              <div class="turntable-img-wrapper" id="turntableImageWrapper">
+                <img class="turntable-specimen-img" id="turntableImage" src="images/tortoise_round_angle.jpg" alt="Gucci Lettering GG1802S Gold 360 view" />
+              </div>
+
+              <!-- Drag Instruction Decal -->
+              <div class="turntable-drag-instruction">
+                <svg style="width:12px;height:12px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 0 0-7.07 17.07l1.41-1.41A8 8 0 1 1 12 20v2a10 10 0 0 0 0-20z"/></svg>
+                <span>Horizontal drag rotates specimen 360°</span>
+              </div>
+            </div>
+
+            <!-- Kelvin Lighting Simulator -->
+            <div class="kelvin-simulator-row">
+              <div class="kelvin-header">
+                <span>Kelvin Lighting Simulator</span>
+                <span style="font-weight:600;color:var(--ink);" id="activeKelvinLabel">5000K Natural Gallery</span>
+              </div>
+              <div class="kelvin-btns-grid">
+                <button class="kelvin-btn active" data-kelvin="5000" onclick="app.setTowerKelvin(5000, this)">
+                  <svg style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+                  <span>5000K Natural</span>
+                </button>
+                <button class="kelvin-btn" data-kelvin="3000" onclick="app.setTowerKelvin(3000, this)">
+                  <svg style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-7 7c0 2.5 1.5 4.5 3 6h8c1.5-1.5 3-3.5 3-6a7 7 0 0 0-7-7z"/></svg>
+                  <span>3000K Halogen</span>
+                </button>
+                <button class="kelvin-btn" data-kelvin="2700" onclick="app.setTowerKelvin(2700, this)">
+                  <svg style="width:13px;height:13px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                  <span>2700K Sunset</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Pupillary Distance Metrology Slider -->
+            <div class="pd-slider-box">
+              <div class="pd-slider-header">
+                <span>Pupillary Distance (PD) Calibration</span>
+                <span class="pd-value-readout"><span id="pdValueDisplay">63.5</span> mm</span>
+              </div>
+              <input type="range" class="pd-range-input" id="pdSlider" min="54.0" max="74.0" step="0.5" value="63.5" oninput="document.getElementById('pdValueDisplay').textContent = parseFloat(this.value).toFixed(1);" />
+              <div class="pd-range-ticks">
+                <span>Narrow (54mm)</span>
+                <span>Atelier Mean (63mm)</span>
+                <span>Broad (74mm)</span>
+              </div>
+            </div>
+
+            <!-- Specification Micro-Grid -->
+            <div class="spec-micro-grid">
+              <div class="spec-micro-box">
+                <span>Lens Width</span>
+                <span id="specLensWidth">55.0 mm</span>
+              </div>
+              <div class="spec-micro-box">
+                <span>Bridge Gauge</span>
+                <span id="specBridgeGauge">18.0 mm</span>
+              </div>
+              <div class="spec-micro-box">
+                <span>Mass in Hand</span>
+                <span id="specMass">15.4 g</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tray Conversion Actions -->
+          <div class="tray-actions-group">
+            <button class="btn-tray-configure" id="btnTowerConfigure" onclick="app.configureTowerFrame()">
+              <span>🛍️ Configure Custom Lenses</span>
+              <svg style="width:16px;height:16px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <a class="btn-tray-wa" id="btnTowerWhatsApp" href="#" target="_blank">
+              <svg style="width:16px;height:16px;fill:currentColor;" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
+              <span>Enquire & Order on WhatsApp</span>
+            </a>
+            <div class="tray-guarantee-footer">
+              <span>✓ 100% Power Accuracy Guarantee</span>
+              <span>Free Fitting at Thiruvarur Clinic</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <!-- FACETED FILTER BAR -->
     <div class="filter-bar">

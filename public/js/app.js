@@ -1052,6 +1052,622 @@
       .replace(/'/g, '&#039;');
   }
 
+  // ══════════════════════════════════════════════════════════════
+  // 3D REVOLVING EYEWEAR TOWER & TACTILE VELVET CONSULTATION TRAY
+  // ══════════════════════════════════════════════════════════════
+
+  const towerState = {
+    currentFacetIndex: 0,
+    currentFrameIndex: 0,
+    standRotationY: 0,
+    isTowerDragging: false,
+    towerStartX: 0,
+    currentTrayAzimuth: 102.4,
+    isTrayDragging: false,
+    trayStartX: 0,
+    isZoomed: false,
+    currentKelvin: 5000,
+    facets: [
+      {
+        facet_id: 1,
+        title: "Facet I • Luxury Sunglasses Sanctuary",
+        degree: "000.0°",
+        angle: 0,
+        tag: "sunglasses",
+        frames: [
+          {
+            name: "Gucci Lettering GG1802S Gold",
+            spec: "55□18-145 • Shiny Gold Metal & Mineral Lenses",
+            price: 38500,
+            lens_width: "55.0 mm",
+            bridge: "18.0 mm",
+            mass: "15.4 g",
+            stock: "Only 2 frames left in vault stock",
+            product_id: 22,
+            img_front: "images/tortoise_round_front.jpg",
+            img_angle: "images/tortoise_round_angle.jpg",
+            img_profile: "images/image5.webp",
+            svg_render: `
+              <svg viewBox="0 0 290 68" fill="none" class="w-full h-full">
+                <defs>
+                  <linearGradient id="gGold" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#C5A059"/>
+                    <stop offset="50%" stop-color="#FCEABF"/>
+                    <stop offset="100%" stop-color="#9E7D3B"/>
+                  </linearGradient>
+                  <linearGradient id="gDarkSun" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#1F2421" stop-opacity="0.9"/>
+                    <stop offset="100%" stop-color="#0E1210" stop-opacity="0.95"/>
+                  </linearGradient>
+                </defs>
+                <path d="M36 30 C18 28, 6 36, 2 44" stroke="#9E7D3B" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+                <path d="M254 30 C272 28, 284 36, 288 44" stroke="#9E7D3B" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
+                <line x1="94" y1="20" x2="196" y2="20" stroke="url(#gGold)" stroke-width="2.5" stroke-linecap="round"/>
+                <line x1="120" y1="28" x2="170" y2="28" stroke="url(#gGold)" stroke-width="2" stroke-linecap="round"/>
+                <path d="M40 23 C78 19, 120 20, 119 38 C118 52, 92 63, 65 61 C44 59, 36 46, 40 23 Z" fill="url(#gDarkSun)" stroke="url(#gGold)" stroke-width="3.5"/>
+                <path d="M250 23 C212 19, 170 20, 171 38 C172 52, 198 63, 225 61 C246 59, 254 46, 250 23 Z" fill="url(#gDarkSun)" stroke="url(#gGold)" stroke-width="3.5"/>
+                <rect x="34" y="24" width="6" height="4" rx="1" fill="#D9B774"/>
+                <rect x="250" y="24" width="6" height="4" rx="1" fill="#D9B774"/>
+              </svg>
+            `
+          },
+          {
+            name: "Ray-Ban Classic Aviator Polarized '84",
+            spec: "58□14-140 • Gold Browline & G-15 Mineral Green",
+            price: 8490,
+            lens_width: "58.0 mm",
+            bridge: "14.0 mm",
+            mass: "16.8 g",
+            stock: "Only 3 frames left in vault stock",
+            product_id: 22,
+            img_front: "uploads/demo.jpeg",
+            img_angle: "images/tortoise_round_angle.jpg",
+            img_profile: "images/image5.webp",
+            svg_render: `
+              <svg viewBox="0 0 290 68" fill="none" class="w-full h-full">
+                <defs>
+                  <linearGradient id="rbGold" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#D4AF37"/>
+                    <stop offset="50%" stop-color="#FFF2B2"/>
+                    <stop offset="100%" stop-color="#AA820A"/>
+                  </linearGradient>
+                  <linearGradient id="rbGreen" x1="0%" y1="0%" x2="0%" y2="100%">
+                    <stop offset="0%" stop-color="#1B3322" stop-opacity="0.9"/>
+                    <stop offset="100%" stop-color="#0E1A11" stop-opacity="0.95"/>
+                  </linearGradient>
+                </defs>
+                <line x1="90" y1="18" x2="200" y2="18" stroke="url(#rbGold)" stroke-width="2.5" stroke-linecap="round"/>
+                <path d="M38 23 C76 19, 118 20, 117 38 C116 52, 90 64, 63 62 C42 60, 34 46, 38 23 Z" fill="url(#rbGreen)" stroke="url(#rbGold)" stroke-width="3.2"/>
+                <path d="M252 23 C214 19, 172 20, 173 38 C174 52, 200 64, 227 62 C248 60, 256 46, 252 23 Z" fill="url(#rbGreen)" stroke="url(#rbGold)" stroke-width="3.2"/>
+              </svg>
+            `
+          },
+          {
+            name: "Tom Ford Snowdon Dark Horn",
+            spec: "50□21-145 • Vintage Amber Tortoise & UV400",
+            price: 29000,
+            lens_width: "50.0 mm",
+            bridge: "21.0 mm",
+            mass: "18.2 g",
+            stock: "Vault inventory: 2 units ready",
+            product_id: 18,
+            img_front: "images/tortoise_round_front.jpg",
+            img_angle: "images/tortoise_round_angle.jpg",
+            img_profile: "images/image1.jpg",
+            svg_render: `
+              <svg viewBox="0 0 290 68" fill="none" class="w-full h-full">
+                <defs>
+                  <linearGradient id="tfHorn" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#3A1C08"/>
+                    <stop offset="40%" stop-color="#7B3F16"/>
+                    <stop offset="70%" stop-color="#241104"/>
+                    <stop offset="100%" stop-color="#9C5724"/>
+                  </linearGradient>
+                </defs>
+                <circle cx="80" cy="35" r="30" fill="#141C18" fill-opacity="0.88" stroke="url(#tfHorn)" stroke-width="5"/>
+                <circle cx="210" cy="35" r="30" fill="#141C18" fill-opacity="0.88" stroke="url(#tfHorn)" stroke-width="5"/>
+                <path d="M122 35 C128 26, 162 26, 168 35" stroke="url(#tfHorn)" stroke-width="4.5" stroke-linecap="round"/>
+                <line x1="38" y1="28" x2="48" y2="28" stroke="#D4AF37" stroke-width="2"/>
+                <line x1="242" y1="28" x2="252" y2="28" stroke="#D4AF37" stroke-width="2"/>
+              </svg>
+            `
+          },
+          {
+            name: "Carrera Champion Bronze Metallic",
+            spec: "62□12-135 • Bronze Titanium Browline & Polarized",
+            price: 9990,
+            lens_width: "62.0 mm",
+            bridge: "12.0 mm",
+            mass: "16.1 g",
+            stock: "Only 1 frame left in stock",
+            product_id: 22,
+            img_front: "uploads/demo.jpeg",
+            img_angle: "images/image5.webp",
+            img_profile: "images/tortoise_round_angle.jpg",
+            svg_render: `
+              <svg viewBox="0 0 290 68" fill="none" class="w-full h-full">
+                <line x1="88" y1="18" x2="202" y2="18" stroke="#B08D57" stroke-width="3" stroke-linecap="round"/>
+                <polygon points="40,24 116,24 105,58 50,58" fill="#16201B" fill-opacity="0.85" stroke="#B08D57" stroke-width="3.2"/>
+                <polygon points="250,24 174,24 185,58 240,58" fill="#16201B" fill-opacity="0.85" stroke="#B08D57" stroke-width="3.2"/>
+              </svg>
+            `
+          }
+        ]
+      },
+      {
+        facet_id: 2,
+        title: "Facet II • Designer Prescription Eyewear",
+        degree: "120.0°",
+        angle: -120,
+        tag: "frames",
+        frames: [
+          {
+            name: "Gucci Institutional Logo GG2237O Green",
+            spec: "54□16-145 • Shaded Green Acetate & Gold Hinge",
+            price: 32000,
+            lens_width: "54.0 mm",
+            bridge: "16.0 mm",
+            mass: "14.2 g",
+            stock: "Vault inventory: 3 units ready",
+            product_id: 19,
+            img_front: "images/image1.jpg",
+            img_angle: "images/image5.webp",
+            img_profile: "images/tortoise_round_angle.jpg",
+            svg_render: `
+              <svg viewBox="0 0 290 68" fill="none" class="w-full h-full">
+                <defs>
+                  <linearGradient id="gucciGreen" x1="0%" x2="100%" y1="0%" y2="100%">
+                    <stop offset="0%" stop-color="#0E2F1E"/>
+                    <stop offset="50%" stop-color="#1B4D33"/>
+                    <stop offset="100%" stop-color="#0B2316"/>
+                  </linearGradient>
+                </defs>
+                <path d="M40 22 C78 18, 120 19, 119 37 C118 51, 92 62, 65 60 C44 58, 36 45, 40 22 Z" fill="#E8EDF0" fill-opacity="0.35" stroke="url(#gucciGreen)" stroke-width="4.2"/>
+                <path d="M250 22 C212 18, 170 19, 171 37 C172 51, 198 62, 225 60 C246 58, 254 45, 250 22 Z" fill="#E8EDF0" fill-opacity="0.35" stroke="url(#gucciGreen)" stroke-width="4.2"/>
+                <line x1="120" y1="28" x2="170" y2="28" stroke="url(#gucciGreen)" stroke-width="3" stroke-linecap="round"/>
+                <rect x="36" y="24" width="7" height="4" rx="1" fill="#D4AF37"/>
+                <rect x="247" y="24" width="7" height="4" rx="1" fill="#D4AF37"/>
+              </svg>
+            `
+          },
+          {
+            name: "Sabi Vintage Round Panto Tortoise",
+            spec: "47□21-140 • Aged Tortoiseshell & Keyhole Bridge",
+            price: 4490,
+            lens_width: "47.0 mm",
+            bridge: "21.0 mm",
+            mass: "11.8 g",
+            stock: "Only 2 frames left on shelf",
+            product_id: 18,
+            img_front: "images/tortoise_round_front.jpg",
+            img_angle: "images/tortoise_round_angle.jpg",
+            img_profile: "images/image1.jpg",
+            svg_render: `
+              <svg viewBox="0 0 290 68" fill="none" class="w-full h-full">
+                <defs>
+                  <linearGradient id="pantoTortoise" x1="0%" x2="100%" y1="0%" y2="100%">
+                    <stop offset="0%" stop-color="#402008"/>
+                    <stop offset="35%" stop-color="#8C4F1A"/>
+                    <stop offset="70%" stop-color="#281303"/>
+                    <stop offset="100%" stop-color="#B87328"/>
+                  </linearGradient>
+                </defs>
+                <circle cx="83" cy="35" r="31" fill="#E8EDF0" fill-opacity="0.35" stroke="url(#pantoTortoise)" stroke-width="4.5"/>
+                <circle cx="207" cy="35" r="31" fill="#E8EDF0" fill-opacity="0.35" stroke="url(#pantoTortoise)" stroke-width="4.5"/>
+                <path d="M125 36 C130 26, 140 24, 145 24 C150 24, 160 26, 165 36" fill="none" stroke="url(#pantoTortoise)" stroke-width="3.5" stroke-linecap="round"/>
+              </svg>
+            `
+          },
+          {
+            name: "Titan Eye+ Champagne Cat-Eye",
+            spec: "52□17-140 • Translucent Rose Acetate & Spring Hinges",
+            price: 2750,
+            lens_width: "52.0 mm",
+            bridge: "17.0 mm",
+            mass: "13.0 g",
+            stock: "Vault inventory: 4 units ready",
+            product_id: 19,
+            img_front: "images/image1.jpg",
+            img_angle: "images/image5.webp",
+            img_profile: "images/tortoise_round_angle.jpg",
+            svg_render: `
+              <svg viewBox="0 0 290 68" fill="none" class="w-full h-full">
+                <path d="M42 22 C72 16, 114 20, 118 36 C116 50, 92 60, 68 58 C48 56, 38 42, 42 22 Z" fill="#F4EAE6" fill-opacity="0.45" stroke="#C98B75" stroke-width="4"/>
+                <path d="M248 22 C218 16, 176 20, 172 36 C174 50, 198 60, 222 58 C242 56, 252 42, 248 22 Z" fill="#F4EAE6" fill-opacity="0.45" stroke="#C98B75" stroke-width="4"/>
+                <line x1="120" y1="28" x2="170" y2="28" stroke="#C98B75" stroke-width="2.8" stroke-linecap="round"/>
+              </svg>
+            `
+          },
+          {
+            name: "Vision Signature Executive Slim",
+            spec: "53□18-142 • Matte Midnight Black & Blue-Cut Ready",
+            price: 1990,
+            lens_width: "53.0 mm",
+            bridge: "18.0 mm",
+            mass: "12.4 g",
+            stock: "In Stock — Ready for Same-Day Fitting",
+            product_id: 21,
+            img_front: "images/slim rectangle frame.png",
+            img_angle: "images/tortoise_round_angle.jpg",
+            img_profile: "images/image1.jpg",
+            svg_render: `
+              <svg viewBox="0 0 290 68" fill="none" class="w-full h-full">
+                <rect x="44" y="20" width="80" height="36" rx="8" fill="#E8EDF0" fill-opacity="0.3" stroke="#1A1714" stroke-width="4"/>
+                <rect x="166" y="20" width="80" height="36" rx="8" fill="#E8EDF0" fill-opacity="0.3" stroke="#1A1714" stroke-width="4"/>
+                <line x1="125" y1="34" x2="165" y2="34" stroke="#1A1714" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+            `
+          }
+        ]
+      },
+      {
+        facet_id: 3,
+        title: "Facet III • Japanese Titanium & Wireframes",
+        degree: "240.0°",
+        angle: -240,
+        tag: "metallic",
+        frames: [
+          {
+            name: "Silhouette Geometric Hexa-Hex Raw Titanium",
+            spec: "50□19-142 • Raw Japanese Titanium Featherweight",
+            price: 18500,
+            lens_width: "50.0 mm",
+            bridge: "19.0 mm",
+            mass: "9.4 g",
+            stock: "Only 2 frames left in vault stock",
+            product_id: 20,
+            img_front: "uploads/b13_26d0f43d-c626-48ef-9465-1a192c4a73d6_1200x.webp",
+            img_angle: "images/tortoise_round_angle.jpg",
+            img_profile: "images/image5.webp",
+            svg_render: `
+              <svg viewBox="0 0 290 68" fill="none" class="w-full h-full">
+                <defs>
+                  <linearGradient id="tiHex" x1="0%" x2="100%" y1="0%" y2="0%">
+                    <stop offset="0%" stop-color="#555861"/>
+                    <stop offset="50%" stop-color="#C7CCD4"/>
+                    <stop offset="100%" stop-color="#6E727A"/>
+                  </linearGradient>
+                </defs>
+                <polygon points="56,20 108,20 125,35 110,54 54,54 38,35" fill="#E8EDF0" fill-opacity="0.28" stroke="url(#tiHex)" stroke-linejoin="round" stroke-width="2.8"/>
+                <polygon points="182,20 234,20 252,35 236,54 180,54 165,35" fill="#E8EDF0" fill-opacity="0.28" stroke="url(#tiHex)" stroke-linejoin="round" stroke-width="2.8"/>
+                <path d="M125 35 L145 31 L165 35" stroke="url(#tiHex)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            `
+          },
+          {
+            name: "Kyoto Minimalist Ribbon β-Titanium",
+            spec: "49□18-145 • 0.6mm Champagne β-Titanium Wire",
+            price: 14800,
+            lens_width: "49.0 mm",
+            bridge: "18.0 mm",
+            mass: "6.8 g",
+            stock: "Only 1 frame remaining in Kyoto Atelier",
+            product_id: 20,
+            img_front: "uploads/b13_26d0f43d-c626-48ef-9465-1a192c4a73d6_1200x.webp",
+            img_angle: "images/tortoise_round_angle.jpg",
+            img_profile: "images/image5.webp",
+            svg_render: `
+              <svg viewBox="0 0 290 68" fill="none" class="w-full h-full">
+                <ellipse cx="84" cy="35" rx="39" ry="24" fill="#F0F4F7" fill-opacity="0.25" stroke="#D4AF37" stroke-width="1.8"/>
+                <ellipse cx="206" cy="35" rx="39" ry="24" fill="#F0F4F7" fill-opacity="0.25" stroke="#D4AF37" stroke-width="1.8"/>
+                <path d="M125 34 C134 26, 156 26, 165 34" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            `
+          },
+          {
+            name: "Mizu Bio-Cellulose Glass Crystal",
+            spec: "52□20-145 • Pure Ice Acetate with Exposed Gold Core",
+            price: 6990,
+            lens_width: "52.0 mm",
+            bridge: "20.0 mm",
+            mass: "13.5 g",
+            stock: "Vault inventory: 3 units ready",
+            product_id: 18,
+            img_front: "images/tortoise_round_front.jpg",
+            img_angle: "images/tortoise_round_angle.jpg",
+            img_profile: "images/image1.jpg",
+            svg_render: `
+              <svg viewBox="0 0 290 68" fill="none" class="w-full h-full">
+                <rect x="42" y="16" width="82" height="42" rx="12" fill="#FFFFFF" fill-opacity="0.3" stroke="#CBDCE6" stroke-width="5"/>
+                <rect x="166" y="16" width="82" height="42" rx="12" fill="#FFFFFF" fill-opacity="0.3" stroke="#CBDCE6" stroke-width="5"/>
+                <path d="M124 33 C132 26, 158 26, 166 33" stroke="#CBDCE6" stroke-width="5" stroke-linecap="round"/>
+                <circle cx="43" cy="20" r="1.5" fill="#D9B774"/>
+                <circle cx="247" cy="20" r="1.5" fill="#D9B774"/>
+              </svg>
+            `
+          },
+          {
+            name: "Titan Air Half-Rim Titanium",
+            spec: "54□18-140 • Gunmetal Lightweight Ergonomic Fit",
+            price: 3890,
+            lens_width: "54.0 mm",
+            bridge: "18.0 mm",
+            mass: "8.2 g",
+            stock: "In Stock — Ready for Same-Day Fitting",
+            product_id: 20,
+            img_front: "uploads/b13_26d0f43d-c626-48ef-9465-1a192c4a73d6_1200x.webp",
+            img_angle: "images/tortoise_round_angle.jpg",
+            img_profile: "images/image5.webp",
+            svg_render: `
+              <svg viewBox="0 0 290 68" fill="none" class="w-full h-full">
+                <path d="M42 24 L120 24" stroke="#4A5568" stroke-width="3" stroke-linecap="round"/>
+                <path d="M44 25 C44 48, 118 48, 118 25" stroke="#CBD5E0" stroke-width="1.2" stroke-dasharray="2 2"/>
+                <path d="M170 24 L248 24" stroke="#4A5568" stroke-width="3" stroke-linecap="round"/>
+                <path d="M172 25 C172 48, 246 48, 246 25" stroke="#CBD5E0" stroke-width="1.2" stroke-dasharray="2 2"/>
+                <line x1="120" y1="28" x2="170" y2="28" stroke="#4A5568" stroke-width="2.5" stroke-linecap="round"/>
+              </svg>
+            `
+          }
+        ]
+      }
+    ]
+  };
+
+  // Render frames onto stand cradles
+  function renderTowerStandFrames() {
+    const container = document.getElementById('standFramesContainer');
+    if (!container) return;
+
+    const facet = towerState.facets[towerState.currentFacetIndex];
+    if (!facet) return;
+
+    container.innerHTML = facet.frames.map((frame, idx) => `
+      <div class="stand-frame-row ${idx === towerState.currentFrameIndex ? 'active' : ''}" 
+           data-frame-idx="${idx}" 
+           onclick="app.selectTowerFrame(${idx})" 
+           title="Click to inspect ${escapeHtml(frame.name)} on consultation tray">
+        <div class="frame-tooltip-bubble">
+          <span style="width:6px;height:6px;border-radius:50%;background:#D9B774;display:inline-block;"></span>
+          <strong>0${idx + 1} / ${escapeHtml(frame.name)}</strong>
+          <span style="opacity:0.75;">• ₹${frame.price.toLocaleString('en-IN')}</span>
+        </div>
+        <div class="frame-selection-halo"></div>
+        <div class="frame-svg-wrapper">
+          ${frame.svg_render}
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // Synchronize Velvet Consultation Tray
+  function syncTowerTray(updateStand = true) {
+    const facet = towerState.facets[towerState.currentFacetIndex];
+    if (!facet) return;
+
+    const frame = facet.frames[towerState.currentFrameIndex];
+    if (!frame) return;
+
+    const activeFacetInd = document.getElementById('activeFacetIndicator');
+    const degreeReadout = document.getElementById('facetDegreeReadout');
+    const trayFacetLabel = document.getElementById('trayFacetLabel');
+    const trayFrameTitle = document.getElementById('trayFrameTitle');
+    const trayFrameSpec = document.getElementById('trayFrameSpec');
+    const trayStockBadge = document.getElementById('trayStockBadge');
+    const specLensWidth = document.getElementById('specLensWidth');
+    const specBridgeGauge = document.getElementById('specBridgeGauge');
+    const specMass = document.getElementById('specMass');
+    const turntableImg = document.getElementById('turntableImage');
+    const btnWa = document.getElementById('btnTowerWhatsApp');
+
+    if (activeFacetInd) activeFacetInd.textContent = facet.title;
+    if (degreeReadout) degreeReadout.textContent = facet.degree;
+    if (trayFacetLabel) trayFacetLabel.textContent = `Inspection Plinth · Facet ${['I','II','III'][towerState.currentFacetIndex]} Selection`;
+    if (trayFrameTitle) trayFrameTitle.textContent = frame.name;
+    if (trayFrameSpec) trayFrameSpec.textContent = frame.spec;
+    if (specLensWidth) specLensWidth.textContent = frame.lens_width;
+    if (specBridgeGauge) specBridgeGauge.textContent = frame.bridge;
+    if (specMass) specMass.textContent = frame.mass;
+
+    if (trayStockBadge) {
+      trayStockBadge.innerHTML = `<span class="tray-pulse-dot"></span><span>${escapeHtml(frame.stock)}</span>`;
+    }
+
+    if (turntableImg) {
+      turntableImg.src = frame.img_angle || frame.img_front || 'images/tortoise_round_angle.jpg';
+      turntableImg.alt = `${frame.name} 360 degree specimen`;
+    }
+
+    if (btnWa) {
+      const waNumber = state.settings.whatsapp || '919486552324';
+      const msg = encodeURIComponent(`Hi Vision Opticals, I am inspecting "${frame.name}" (${frame.spec}) on your 3D Revolving Tower. Please guide me on custom lens options.`);
+      btnWa.href = `https://wa.me/${waNumber}?text=${msg}`;
+    }
+
+    // Update Facet Button active states
+    document.querySelectorAll('.facet-tab-btn').forEach((btn, idx) => {
+      btn.classList.toggle('active', idx === towerState.currentFacetIndex);
+    });
+
+    renderTowerStandFrames();
+
+    if (updateStand) {
+      const rig = document.getElementById('standRotatableRig');
+      if (rig) {
+        towerState.standRotationY = facet.angle;
+        rig.style.transform = `rotateY(${towerState.standRotationY}deg)`;
+      }
+    }
+  }
+
+  function selectTowerFacet(facetIdx) {
+    towerState.currentFacetIndex = (facetIdx + towerState.facets.length) % towerState.facets.length;
+    towerState.currentFrameIndex = 0;
+    syncTowerTray(true);
+  }
+
+  function selectTowerFrame(frameIdx) {
+    towerState.currentFrameIndex = frameIdx;
+    syncTowerTray(false);
+
+    // Visual feedback
+    const activeRow = document.querySelector(`.stand-frame-row[data-frame-idx="${frameIdx}"] .frame-svg-wrapper`);
+    if (activeRow) {
+      activeRow.style.transform = 'scale(1.12) translateZ(24px)';
+      setTimeout(() => {
+        activeRow.style.transform = 'scale(1.08) translateZ(16px)';
+      }, 250);
+    }
+  }
+
+  function toggleTowerZoom() {
+    towerState.isZoomed = !towerState.isZoomed;
+    const wrapper = document.getElementById('turntableImageWrapper');
+    const btnText = document.getElementById('zoomBtnText');
+    if (wrapper) wrapper.classList.toggle('zoomed', towerState.isZoomed);
+    if (btnText) btnText.textContent = towerState.isZoomed ? 'Zoom Out' : 'Zoom (1.8x)';
+  }
+
+  function setTowerKelvin(kelvin, btn) {
+    towerState.currentKelvin = kelvin;
+    document.querySelectorAll('.kelvin-btn').forEach(b => b.classList.remove('active'));
+    if (btn) btn.classList.add('active');
+
+    const lbl = document.getElementById('activeKelvinLabel');
+    const img = document.getElementById('turntableImage');
+
+    if (lbl) {
+      if (kelvin === 5000) lbl.textContent = '5000K Natural Gallery';
+      else if (kelvin === 3000) lbl.textContent = '3000K Halogen Warm';
+      else if (kelvin === 2700) lbl.textContent = '2700K Sunset Golden';
+    }
+
+    if (img) {
+      if (kelvin === 5000) img.style.filter = 'drop-shadow(0 8px 16px rgba(0,0,0,0.12))';
+      else if (kelvin === 3000) img.style.filter = 'sepia(0.25) saturate(1.15) brightness(0.98) drop-shadow(0 8px 16px rgba(0,0,0,0.12))';
+      else if (kelvin === 2700) img.style.filter = 'sepia(0.5) saturate(1.3) hue-rotate(-12deg) drop-shadow(0 8px 16px rgba(0,0,0,0.12))';
+    }
+  }
+
+  function configureTowerFrame() {
+    const facet = towerState.facets[towerState.currentFacetIndex];
+    if (!facet) return;
+    const frame = facet.frames[towerState.currentFrameIndex];
+    if (!frame) return;
+
+    if (frame.product_id) {
+      openDetail(frame.product_id);
+    } else {
+      openDetail(18);
+    }
+  }
+
+  function scrollToTower() {
+    const sec = document.getElementById('revolving-tower-section');
+    if (sec) {
+      sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  // Setup Tower Drag & Turntable Drag
+  function initTowerDragInteractions() {
+    const spinCanvas = document.getElementById('towerSpinCanvas');
+    const standRig = document.getElementById('standRotatableRig');
+    const degreeReadout = document.getElementById('facetDegreeReadout');
+
+    if (spinCanvas && standRig) {
+      spinCanvas.addEventListener('mousedown', (e) => {
+        towerState.isTowerDragging = true;
+        towerState.towerStartX = e.clientX;
+        standRig.style.transition = 'none';
+      });
+
+      window.addEventListener('mouseup', () => {
+        if (!towerState.isTowerDragging) return;
+        towerState.isTowerDragging = false;
+        standRig.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+
+        // Snap to nearest 120° facet
+        const nearestIndex = Math.round((-towerState.standRotationY) / 120);
+        const normalizedIndex = ((nearestIndex % 3) + 3) % 3;
+        selectTowerFacet(normalizedIndex);
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!towerState.isTowerDragging) return;
+        const deltaX = e.clientX - towerState.towerStartX;
+        towerState.towerStartX = e.clientX;
+        towerState.standRotationY += deltaX * 0.65;
+        standRig.style.transform = `rotateY(${towerState.standRotationY}deg)`;
+
+        const posAngle = ((towerState.standRotationY % 360) + 360) % 360;
+        if (degreeReadout) {
+          degreeReadout.textContent = posAngle.toFixed(1).padStart(5, '0') + '°';
+        }
+      });
+
+      // Touch events for mobile drag
+      spinCanvas.addEventListener('touchstart', (e) => {
+        if (e.touches.length === 1) {
+          towerState.isTowerDragging = true;
+          towerState.towerStartX = e.touches[0].clientX;
+          standRig.style.transition = 'none';
+        }
+      }, { passive: true });
+
+      window.addEventListener('touchend', () => {
+        if (!towerState.isTowerDragging) return;
+        towerState.isTowerDragging = false;
+        standRig.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+        const nearestIndex = Math.round((-towerState.standRotationY) / 120);
+        const normalizedIndex = ((nearestIndex % 3) + 3) % 3;
+        selectTowerFacet(normalizedIndex);
+      });
+
+      window.addEventListener('touchmove', (e) => {
+        if (!towerState.isTowerDragging || e.touches.length !== 1) return;
+        const deltaX = e.touches[0].clientX - towerState.towerStartX;
+        towerState.towerStartX = e.touches[0].clientX;
+        towerState.standRotationY += deltaX * 0.65;
+        standRig.style.transform = `rotateY(${towerState.standRotationY}deg)`;
+
+        const posAngle = ((towerState.standRotationY % 360) + 360) % 360;
+        if (degreeReadout) {
+          degreeReadout.textContent = posAngle.toFixed(1).padStart(5, '0') + '°';
+        }
+      }, { passive: true });
+    }
+
+    // Turntable Drag Interaction on Right Velvet Tray
+    const trayImgWrap = document.getElementById('turntableImageWrapper');
+    const azimuthIndicator = document.getElementById('azimuthIndicator');
+    const turntableImage = document.getElementById('turntableImage');
+
+    if (trayImgWrap) {
+      trayImgWrap.addEventListener('mousedown', (e) => {
+        towerState.isTrayDragging = true;
+        towerState.trayStartX = e.clientX;
+      });
+
+      window.addEventListener('mouseup', () => {
+        towerState.isTrayDragging = false;
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        if (!towerState.isTrayDragging) return;
+        const deltaX = e.clientX - towerState.trayStartX;
+        towerState.trayStartX = e.clientX;
+        towerState.currentTrayAzimuth = (towerState.currentTrayAzimuth + deltaX * 0.5 + 360) % 360;
+
+        if (azimuthIndicator) {
+          let desc = 'Front Silhouette';
+          if (towerState.currentTrayAzimuth > 35 && towerState.currentTrayAzimuth < 125) desc = 'Oblique Temple Angle';
+          else if (towerState.currentTrayAzimuth >= 125 && towerState.currentTrayAzimuth < 215) desc = 'Profile Hinge Alignment';
+          else if (towerState.currentTrayAzimuth >= 215 && towerState.currentTrayAzimuth < 305) desc = 'Rear Bridge & Core Wire';
+          azimuthIndicator.textContent = `Azimuth: ${towerState.currentTrayAzimuth.toFixed(1)}° • ${desc}`;
+        }
+
+        if (turntableImage) {
+          const skew = Math.sin((towerState.currentTrayAzimuth * Math.PI) / 180) * 12;
+          turntableImage.style.transform = `perspective(600px) rotateY(${skew}deg)`;
+        }
+      });
+    }
+
+    // Prev / Next 120° Buttons
+    document.getElementById('prevFacetBtn')?.addEventListener('click', () => selectTowerFacet(towerState.currentFacetIndex - 1));
+    document.getElementById('nextFacetBtn')?.addEventListener('click', () => selectTowerFacet(towerState.currentFacetIndex + 1));
+  }
+
   // Expose methods to global scope
   window.app = {
     init,
@@ -1084,8 +1700,19 @@
     openTrackOrderModal,
     closeTrackModal,
     trackOrderLookup,
-    trackOrderById
+    trackOrderById,
+    // 3D Tower Methods
+    selectTowerFacet,
+    selectTowerFrame,
+    toggleTowerZoom,
+    setTowerKelvin,
+    configureTowerFrame,
+    scrollToTower
   };
 
-  document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('DOMContentLoaded', () => {
+    init();
+    syncTowerTray(false);
+    initTowerDragInteractions();
+  });
 })();
